@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">JuegoCartasCliente</string>
+    <string name="preferencias_usuario">User preferences</string>
+    <string name="preferencais_cerrar_sesion">Sing off</string>
+    <string name="preferencais_cerrar_sesion_submensaje">Press me!</string>
+    <string name="preferencias">Preferences</string>
+    <string name="login_recordar">Remember user and pass?</string>
+    <string name="login_entrar">Enter</string>
+    <string name="login_usuario">User</string>
+    <string name="login_pass">Password</string>
+    <string name="login_titulo">Login</string>
+    <string name="login_registro">Register for free by clicking here!</string>
+    <string name="main_crear_partida">New Game</string>
+    <string name="main_ver_ranking">Ranking</string>
+    <string name="main_ver_cartas">See all cards</string>
+    <string name="main_winrate_cartas">Cards Winrate</string>
+    <string name="carta_etiqueta_motor">Motor :</string>
+    <string name="carta_etiqueta_cilindros">Cylinders :</string>
+    <string name="carta_etiqueta_potencia">Potency :</string>
+    <string name="carta_etiqueta_rpm">RPM :</string>
+    <string name="carta_etiqueta_velocidad">Speed :</string>
+    <string name="carta_etiqueta_consumo">Consumption :</string>
+    <string name="carta_unidad_motor">C.C.</string>
+    <string name="carta_unidad_potencia">C.V.</string>
+    <string name="carta_unidad_velocidad">KM/H</string>
+    <string name="carta_unidad_consumo">L/100KM</string>
+    <string name="carta_caracteristica">Feature :</string>
+    <string name="valor_carta_default">\?</string>
+    <string name="partida_mano">Hand : </string>
+    <string name="partida_turno_jugador">Your turn</string>
+    <string name="partida_seleccion_caracteristica">SELECT ONE FEATURE</string>
+    <string name="menu_saludo">Welcome, </string>
+</resources>
+

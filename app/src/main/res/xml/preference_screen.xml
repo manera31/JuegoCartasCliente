@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/preferencias_usuario">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="cbRememberPreferences"
+            android:title="@string/login_recordar" />
+        <Preference
+            android:key="@string/preferencais_cerrar_sesion"
+            android:summary="@string/preferencais_cerrar_sesion_submensaje"
+            android:title="@string/preferencais_cerrar_sesion" />
+    </PreferenceCategory>
+</PreferenceScreen>
