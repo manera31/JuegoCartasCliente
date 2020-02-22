@@ -316,9 +316,11 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_weight="3">
+        android:layout_weight="3"
+        android:clipToPadding="false"
+        android:paddingTop="10dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -19,16 +19,13 @@ import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.interfaces.APIUtils;
 import com.joanmanera.juegocartascliente.interfaces.IPartida;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaLogin;
-import com.joanmanera.juegocartascliente.utils.Acierto;
-import com.joanmanera.juegocartascliente.utils.Alerta;
+import com.joanmanera.juegocartascliente.utils.Control;
 import com.joanmanera.juegocartascliente.utils.Lib;
-import com.joanmanera.juegocartascliente.utils.Error;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -97,7 +94,22 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
                     }
 
-                    if (response.body().getCodigoError() != Error.Login.USUARIO_PASS_INCORRECTO){
+                    /*switch (response.body().getCodigoError()){
+                        case Control.Login.USUARIO_PASS_INCORRECTO:
+                            Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
+                            break;
+                        case Control.Login.YA_CONECTADO:
+                            Toast.makeText(LoginActivity.this, "Usuario ya conectado", Toast.LENGTH_SHORT).show();
+                            break;
+                        case Control.Login.ENCONTRADO:
+                            Intent respuestaActivityLogin = new Intent();
+                            respuestaActivityLogin.putExtra("idSesion", response.body().getIdSesion());
+                            respuestaActivityLogin.putExtra("usuario", response.body().getUsuario());
+                            setResult(Activity.RESULT_OK, respuestaActivityLogin);
+                            finish();
+                            break;
+                    }*/
+                    if (response.body().getCodigoError() != Control.Login.USUARIO_PASS_INCORRECTO){
                         Intent respuestaActivityLogin = new Intent();
                         respuestaActivityLogin.putExtra("idSesion", response.body().getIdSesion());
                         respuestaActivityLogin.putExtra("usuario", response.body().getUsuario());

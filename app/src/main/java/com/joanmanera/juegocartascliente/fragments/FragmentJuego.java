@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.adapters.CartaAdapter;
 import com.joanmanera.juegocartascliente.dialogos.DialogoSeleccionCaracteristica;
+import com.joanmanera.juegocartascliente.interfaces.IRespuestas;
 import com.joanmanera.juegocartascliente.modelos.Carta;
+import com.joanmanera.juegocartascliente.utils.Enums;
 
 import java.util.ArrayList;
 
@@ -33,9 +35,13 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
 
     private String idSesion, idPartida;
     private ArrayList<Carta> cartasJugador;
+    private Enums.Caracteristica caracteristica;
+    private IRespuestas listener;
 
-    public FragmentJuego(ArrayList<Carta> cartasJugador){
+    public FragmentJuego(ArrayList<Carta> cartasJugador, Enums.Caracteristica caracteristica, IRespuestas lisener){
         this.cartasJugador = cartasJugador;
+        this.caracteristica = caracteristica;
+        this.listener = lisener;
     }
 
     @Nullable

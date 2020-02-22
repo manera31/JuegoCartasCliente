@@ -5,12 +5,12 @@ import com.joanmanera.juegocartascliente.utils.Enums;
 
 public class RespuestaSorteo {
 
-    private Enums.PrimeroEnSacar empieza;
+    private Enums.Turno empieza;
     private int condigoError;
 
-    public RespuestaSorteo(Enums.PrimeroEnSacar empieza) {
+    public RespuestaSorteo(Enums.Turno empieza, int condigoError) {
         this.empieza = empieza;
-        condigoError = 0;
+        this.condigoError = condigoError;
     }
 
     public RespuestaSorteo(int condigoError) {
@@ -21,11 +21,11 @@ public class RespuestaSorteo {
     public RespuestaSorteo() {
     }
 
-    public Enums.PrimeroEnSacar getTurno() {
+    public Enums.Turno getTurno() {
         return empieza;
     }
 
-    public void setTurno(Enums.PrimeroEnSacar empieza) {
+    public void setTurno(Enums.Turno empieza) {
         this.empieza = empieza;
     }
 

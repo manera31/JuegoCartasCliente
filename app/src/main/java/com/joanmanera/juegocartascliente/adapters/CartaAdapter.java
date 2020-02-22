@@ -39,6 +39,15 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
         return cartas.size();
     }
 
+    public void quitarCarta(int idCarta){
+        for (Carta c: cartas){
+            if (c.getId() == idCarta){
+                cartas.remove(c);
+                return;
+            }
+        }
+    }
+
     public class CartaHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvMarca;
