@@ -1,6 +1,9 @@
 package com.joanmanera.juegocartascliente.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -8,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.fragments.FragmentJuego;
+import com.joanmanera.juegocartascliente.fragments.FragmentResultadoMano;
 import com.joanmanera.juegocartascliente.interfaces.APIUtils;
 import com.joanmanera.juegocartascliente.interfaces.IPartida;
 import com.joanmanera.juegocartascliente.interfaces.IRespuestas;
 import com.joanmanera.juegocartascliente.modelos.Carta;
 import com.joanmanera.juegocartascliente.respuestas.EnvioJugarCarta;
-import com.joanmanera.juegocartascliente.respuestas.RespuestaGanadorMano;
+import com.joanmanera.juegocartascliente.respuestas.RespuestaResultadoMano;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaJugarCartaCPU;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaNuevoJuego;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaSorteo;
@@ -26,9 +30,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class JuegoActivity extends AppCompatActivity implements IRespuestas {
+public class JuegoActivity extends AppCompatActivity implements IRespuestas, View.OnClickListener {
 
-    private Retrofit retrofit;
     private IPartida partida;
 
     private String idSesion;
@@ -37,8 +40,9 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas {
     private ArrayList<Carta> cartasJugador, cartasTodas;
 
     private StringBuilder idSesionPartida;
-    private RespuestaJugarCartaCPU respuestaJugarCartaCPU;
     private IRespuestas listener;
+    private Enums.Turno turno;
+    private RespuestaResultadoMano respuestaResultadoManoAux;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +80,6 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas {
                         case Control.Sesion.ENCONTRADA:
                             idPartida = respuesta.getIdPartida();
                             cartasJugador = respuesta.getCartasJugador();
-                            Toast.makeText(JuegoActivity.this, "Encontrada", Toast.LENGTH_SHORT).show();
 
                             sortearInicio();
 
@@ -117,7 +120,8 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas {
                             break;
                         case Control.Partida.ENCONTRADA:
 
-                            jugar(respuestaSorteo.getTurno());
+                            turno = respuestaSorteo.getTurno();
+                            jugar();
 
                             break;
                     }
@@ -132,13 +136,15 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas {
 
     }
 
-    private void jugar(Enums.Turno turno){
+    private void jugar(){
 
         switch (turno){
             case CPU:
                 recibirCartaCPU();
                 break;
             case Jugador:
+                FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, null, this, mano);
+                getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentJuego).commit();
                 break;
         }
 
@@ -168,19 +174,58 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas {
 
     @Override
     public void onCartaRecibidaCPU(RespuestaJugarCartaCPU respuestaJugarCartaCPU) {
-        if (mano <= 6){
-            FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, respuestaJugarCartaCPU.getCaracteristica(), this);
-            getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentJuego).addToBackStack(null).commit();
+        FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, respuestaJugarCartaCPU.getCaracteristica(), this, mano);
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentJuego).commit();
+    }
+
+    @Override
+    public void onRespuestaGanadorMano(RespuestaResultadoMano respuestaResultadoMano) {
+        respuestaResultadoManoAux = respuestaResultadoMano;
+        FragmentResultadoMano fragmentResultadoMano = new FragmentResultadoMano(respuestaResultadoMano, this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentResultadoMano).commit();
+    }
+
+    @Override
+    public void onSeleccionCartaJugador(int idCarta, Enums.Caracteristica caracteristica) {
+        EnvioJugarCarta envioJugarCarta = new EnvioJugarCarta(idSesion, idPartida, idCarta, caracteristica);
+
+        Call<RespuestaResultadoMano> respuestaGanadorManoCall = partida.jugarCarta(envioJugarCarta);
+
+        respuestaGanadorManoCall.enqueue(new Callback<RespuestaResultadoMano>() {
+            @Override
+            public void onResponse(Call<RespuestaResultadoMano> call, Response<RespuestaResultadoMano> response) {
+                if (response.isSuccessful()){
+                    listener.onRespuestaGanadorMano(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaResultadoMano> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    // Listener para controlar el boton de la pantalla de ver el resultado
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.bContinuarFRM){
+            mano++;
+            if (mano < 6){
+                if (turno == Enums.Turno.CPU){
+                    turno = Enums.Turno.Jugador;
+                } else {
+                    turno = Enums.Turno.CPU;
+                }
+                jugar();
+            } else {
+                Intent respuesta = new Intent();
+                respuesta.putExtra("respuestaResultadoMano", respuestaResultadoManoAux);
+                setResult(Activity.RESULT_OK, respuesta);
+                finish();
+            }
+
         }
-    }
-
-    @Override
-    public void onRespuestaGanadorMano(RespuestaGanadorMano respuestaGanadorMano) {
-
-    }
-
-    @Override
-    public void onSeleccionCartaJugador(EnvioJugarCarta envioJugarCarta) {
-
     }
 }

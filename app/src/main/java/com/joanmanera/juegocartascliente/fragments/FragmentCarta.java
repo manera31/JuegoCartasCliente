@@ -41,8 +41,11 @@ public class FragmentCarta extends Fragment {
         return view;
     }
 
-    public void setCarta(Carta carta){
-        llTodo.setBackgroundColor(Color.GREEN);
+    public void setCarta(Carta carta, int idCartaGanadora){
+        if (idCartaGanadora == carta.getId() || idCartaGanadora == 0){
+            llTodo.setBackgroundColor(Color.GREEN);
+        }
+
         ivFotoCarta.setBackgroundResource(R.drawable.mclaren);
         tvMarca.setText(carta.getMarca());
         tvModelo.setText(carta.getModelo());

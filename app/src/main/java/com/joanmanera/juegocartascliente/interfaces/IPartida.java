@@ -1,7 +1,7 @@
 package com.joanmanera.juegocartascliente.interfaces;
 
 import com.joanmanera.juegocartascliente.respuestas.EnvioJugarCarta;
-import com.joanmanera.juegocartascliente.respuestas.RespuestaGanadorMano;
+import com.joanmanera.juegocartascliente.respuestas.RespuestaResultadoMano;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaJugarCartaCPU;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaLogin;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaNuevoJuego;
@@ -23,8 +23,11 @@ public interface IPartida {
     Call<RespuestaSorteo> sortearInicio(@Body String idSesionPartida);
 
     @POST("jugarCarta")
-    Call<RespuestaGanadorMano> jugarCarta(@Body EnvioJugarCarta carta);
+    Call<RespuestaResultadoMano> jugarCarta(@Body EnvioJugarCarta carta);
 
     @POST("clienteListo")
     Call<RespuestaJugarCartaCPU> clienteListo(@Body String idSesionPartida);
+
+    @POST("cerrarSesion")
+    void cerrarSesion(@Body String idSesion);
 }

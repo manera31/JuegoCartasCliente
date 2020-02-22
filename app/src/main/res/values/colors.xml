@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="fondo">#AF9A9A</color>
+    <color name="victoria">#4CAF50</color>
+    <color name="derrota">#E91E1E</color>
 </resources>

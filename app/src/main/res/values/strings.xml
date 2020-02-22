@@ -29,6 +29,11 @@
     <string name="partida_mano">Hand : </string>
     <string name="partida_turno_jugador">Your turn</string>
     <string name="partida_seleccion_caracteristica">SELECT ONE FEATURE</string>
+    <string name="partida_ganador_jugador">You Win!</string>
+    <string name="partida_ganador_cpu">You Lose!</string>
+    <string name="partida_ganador_empate">Tie!</string>
+    <string name="partida_etiqueta_jugador">You</string>
+    <string name="partida_etiqueta_cpu">CPU</string>
     <string name="menu_saludo">Welcome, </string>
 </resources>
 

@@ -11,25 +11,25 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.fragments.FragmentMenuPrincipal;
+import com.joanmanera.juegocartascliente.fragments.FragmentResultadoPartido;
 import com.joanmanera.juegocartascliente.interfaces.APIUtils;
-import com.joanmanera.juegocartascliente.interfaces.ICRUD;
-import com.joanmanera.juegocartascliente.modelos.Carta;
+import com.joanmanera.juegocartascliente.interfaces.IPartida;
+import com.joanmanera.juegocartascliente.utils.Datos;
 import com.joanmanera.juegocartascliente.modelos.Usuario;
+import com.joanmanera.juegocartascliente.respuestas.RespuestaResultadoMano;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class  MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ArrayList<Carta> cartas;
     private FragmentMenuPrincipal fragmentMenuPrincipal;
     private String idSesion;
 
@@ -38,64 +38,56 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Datos.cargarCartas();
+        Datos.cargarEstadisticas();
+
 
         Intent login = new Intent(this, LoginActivity.class);
         startActivityForResult(login, 1);
-
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                cargarCartas();
+        switch (requestCode){
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+                    idSesion = data.getStringExtra("idSesion");
+                    Usuario usuario = (Usuario)data.getSerializableExtra("usuario");
 
-                idSesion = data.getStringExtra("idSesion");
-                Usuario usuario = (Usuario)data.getSerializableExtra("usuario");
+                    fragmentMenuPrincipal = new FragmentMenuPrincipal(this, usuario, Datos.getEstadisticaUsuarios());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentMenuPrincipal).commit();
+                }
+                break;
+            case 2:
+                if (resultCode == Activity.RESULT_OK){
+                    RespuestaResultadoMano respuestaResultadoMano = (RespuestaResultadoMano) data.getSerializableExtra("respuestaResultadoMano");
 
-                fragmentMenuPrincipal = new FragmentMenuPrincipal(this, usuario);
-                getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentMenuPrincipal).commit();
-            }
+                    FragmentResultadoPartido fragmentResultadoPartido = new FragmentResultadoPartido(respuestaResultadoMano, this);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentResultadoPartido).commit();
+                }
+                break;
+
         }
 
     }
 
-    private void cargarCartas(){
-
-        ICRUD iCartas = APIUtils.getCRUD();
-
-        Call<List<Carta>> respuestaCartas = iCartas.getCartas();
-
-        respuestaCartas.enqueue(new Callback<List<Carta>>() {
-            @Override
-            public void onResponse(Call<List<Carta>> call, Response<List<Carta>> response) {
-                if (response.isSuccessful()){
-                    cartas = new ArrayList<>();
-                    for (Carta c: response.body()){
-                        cartas.add(c);
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Carta>> call, Throwable t) {
-
-            }
-        });
-    }
-
     @Override
     public void onClick(View v) {
-        /*fragmentJuego = new FragmentJuego(cartas);
-        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentJuego).addToBackStack(null).commit();*/
-        Intent juego = new Intent(this, JuegoActivity.class);
-        juego.putExtra("cartas", cartas);
-        juego.putExtra("idSesion", idSesion);
-        startActivity(juego);
+        switch (v.getId()){
+            case R.id.bNuevaPartida:
+                Intent juego = new Intent(this, JuegoActivity.class);
+                juego.putExtra("cartas", Datos.getCartas());
+                juego.putExtra("idSesion", idSesion);
+                startActivityForResult(juego, 2);
+
+                break;
+            case R.id.bContinuarFRP:
+                getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentMenuPrincipal).commit();
+
+                break;
+        }
+
 
     }
 
@@ -113,5 +105,27 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
             startActivity(preferencias);
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    protected void onStop() {
+        //TODO
+        /*Retrofit builder = new Retrofit.Builder()
+                .baseUrl(APIUtils.URL_PARTIDA)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        IPartida partida = builder.create(IPartida.class);
+
+        partida.cerrarSesion(idSesion);
+
+        Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show();*/
+        super.onStop();
     }
 }

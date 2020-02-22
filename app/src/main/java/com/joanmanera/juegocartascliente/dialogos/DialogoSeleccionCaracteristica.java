@@ -8,14 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.joanmanera.juegocartascliente.R;
+import com.joanmanera.juegocartascliente.interfaces.IRespuestas;
 import com.joanmanera.juegocartascliente.modelos.Carta;
+import com.joanmanera.juegocartascliente.respuestas.EnvioJugarCarta;
 import com.joanmanera.juegocartascliente.utils.Enums;
 
 public class DialogoSeleccionCaracteristica extends DialogFragment {
@@ -23,9 +24,11 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
     private RadioGroup rgCaracteristicas;
     private RadioButton rbMotor, rbCilindros, rbPotencia, rbRPM, rbVelocidad, rbConsumo;
     private Carta carta;
+    private IRespuestas listener;
 
-    public DialogoSeleccionCaracteristica (Carta carta){
+    public DialogoSeleccionCaracteristica (Carta carta, IRespuestas listener){
         this.carta = carta;
+        this.listener = listener;
     }
 
     @NonNull
@@ -77,7 +80,7 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
                                 caracteristica = Enums.Caracteristica.CONSUMO;
                                 break;
                         }
-                        Toast.makeText(getActivity(), caracteristica.toString(), Toast.LENGTH_SHORT).show();
+                        listener.onSeleccionCartaJugador(carta.getId(), caracteristica);
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

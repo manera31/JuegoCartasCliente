@@ -29,19 +29,20 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
     private CartaAdapter adapter;
     private RecyclerView recyclerView;
     private Carta cartaActual;
-    private TextView tvMarca, tvModelo, tvMotor, tvCilindros, tvPotencia, tvRPM, tvVelocidad, tvConsumo, tvCaracteristica;
+    private TextView tvMarca, tvModelo, tvMotor, tvCilindros, tvPotencia, tvRPM, tvVelocidad, tvConsumo, tvCaracteristica, tvMano;
     private ImageView ivFotoCarta;
-    private LinearLayout llCaracteristica, llCarta;
+    private LinearLayout llCarta;
 
-    private String idSesion, idPartida;
     private ArrayList<Carta> cartasJugador;
     private Enums.Caracteristica caracteristica;
     private IRespuestas listener;
+    private int mano;
 
-    public FragmentJuego(ArrayList<Carta> cartasJugador, Enums.Caracteristica caracteristica, IRespuestas lisener){
+    public FragmentJuego(ArrayList<Carta> cartasJugador, Enums.Caracteristica caracteristica, IRespuestas lisener, int mano){
         this.cartasJugador = cartasJugador;
         this.caracteristica = caracteristica;
         this.listener = lisener;
+        this.mano = mano;
     }
 
     @Nullable
@@ -64,17 +65,30 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
         tvRPM = view.findViewById(R.id.tvRPM);
         tvVelocidad = view.findViewById(R.id.tvVelocidad);
         tvConsumo = view.findViewById(R.id.tvConsumo);
-        llCaracteristica = view.findViewById(R.id.llCaracteristica);
         tvCaracteristica = view.findViewById(R.id.tvCaracteristica);
+        tvMano = view.findViewById(R.id.tvMano);
+
+        tvMano.setText(String.valueOf(mano+1));
+
+        if (caracteristica != null){
+            tvCaracteristica.setText(caracteristica.toString());
+        } else {
+            tvCaracteristica.setText("Tu turno!");
+        }
 
         llCarta = view.findViewById(R.id.llCarta);
         llCarta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(), "hola", Toast.LENGTH_SHORT).show();
                 if (!tvMarca.getText().equals("")){
-                    DialogoSeleccionCaracteristica dialogo = new DialogoSeleccionCaracteristica(cartaActual);
-                    dialogo.show(getActivity().getSupportFragmentManager(), "dialogo");
+                    if (caracteristica != null){
+                        listener.onSeleccionCartaJugador(cartaActual.getId(), caracteristica);
+                    } else {
+                        DialogoSeleccionCaracteristica dialogo = new DialogoSeleccionCaracteristica(cartaActual, listener);
+                        dialogo.show(getActivity().getSupportFragmentManager(), "dialogo");
+                    }
+                    adapter.quitarCarta(cartaActual.getId());
+
                 } else {
                     Toast.makeText(getActivity(), "Selecciona una carta!", Toast.LENGTH_SHORT).show();
                 }
