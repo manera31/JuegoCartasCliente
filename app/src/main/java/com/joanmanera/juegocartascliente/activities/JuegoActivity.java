@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.fragments.FragmentJuego;
 import com.joanmanera.juegocartascliente.fragments.FragmentResultadoMano;
-import com.joanmanera.juegocartascliente.interfaces.APIUtils;
+import com.joanmanera.juegocartascliente.utils.APIUtils;
 import com.joanmanera.juegocartascliente.interfaces.IPartida;
 import com.joanmanera.juegocartascliente.interfaces.IRespuestas;
 import com.joanmanera.juegocartascliente.modelos.Carta;

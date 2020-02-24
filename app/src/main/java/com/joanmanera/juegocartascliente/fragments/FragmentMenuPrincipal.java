@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.adapters.RankingAdapter;
-import com.joanmanera.juegocartascliente.interfaces.APIUtils;
+import com.joanmanera.juegocartascliente.utils.APIUtils;
 import com.joanmanera.juegocartascliente.interfaces.IEstadistica;
 import com.joanmanera.juegocartascliente.modelos.EstadisticaUsuario;
 import com.joanmanera.juegocartascliente.modelos.Usuario;

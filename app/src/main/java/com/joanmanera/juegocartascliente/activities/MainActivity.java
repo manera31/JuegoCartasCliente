@@ -30,7 +30,6 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
 
     private FragmentMenuPrincipal fragmentMenuPrincipal;
     private String idSesion;
-    private ArrayList<EstadisticaUsuario> estadisticaUsuarios;
 
     /**
      * Carga los datos y inicia la activity de iniciar sesión.
@@ -42,8 +41,6 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_main);
 
         Datos.cargarCartas();
-        Datos.cargarEstadisticas();
-
 
         Intent login = new Intent(this, LoginActivity.class);
         startActivityForResult(login, 1);

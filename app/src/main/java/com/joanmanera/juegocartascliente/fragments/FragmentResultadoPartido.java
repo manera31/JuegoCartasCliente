@@ -17,6 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaResultadoMano;
 
+/**
+ * Fragment para mostrar el resultado de una partida.
+ * @author Joan Manera Perez
+ */
 public class FragmentResultadoPartido extends Fragment {
     private TextView tvTitulo, tvResultadoJugador, tvResultadoCPU;
     private Button bContinuarFRP;
@@ -25,11 +29,23 @@ public class FragmentResultadoPartido extends Fragment {
     private RespuestaResultadoMano respuestaResultadoMano;
     private View.OnClickListener listener;
 
+    /**
+     * Constructor.
+     * @param respuestaResultadoMano
+     * @param listener
+     */
     public FragmentResultadoPartido(RespuestaResultadoMano respuestaResultadoMano, View.OnClickListener listener){
         this.respuestaResultadoMano = respuestaResultadoMano;
         this.listener = listener;
     }
 
+    /**
+     * Carga las vistas del fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @SuppressLint("ResourceAsColor")
     @Nullable
     @Override

@@ -16,6 +16,10 @@ import com.joanmanera.juegocartascliente.utils.Datos;
 import com.joanmanera.juegocartascliente.modelos.Carta;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaResultadoMano;
 
+/**
+ * Fragment para mostrar los resultados de la mano.
+ * @author Joan Manera Perez
+ */
 public class FragmentResultadoMano extends Fragment {
     private FragmentCarta fragmentCartaJugador, fragmentCartaCPU;
     private TextView tvCaracteristicaResultado;
@@ -24,11 +28,23 @@ public class FragmentResultadoMano extends Fragment {
     private RespuestaResultadoMano respuestaResultadoMano;
     private View.OnClickListener listener;
 
+    /**
+     * Constructor.
+     * @param respuestaResultadoMano
+     * @param listener
+     */
     public FragmentResultadoMano(RespuestaResultadoMano respuestaResultadoMano, View.OnClickListener listener){
         this.respuestaResultadoMano = respuestaResultadoMano;
         this.listener = listener;
     }
 
+    /**
+     * Carga las vistas del fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,6 +66,11 @@ public class FragmentResultadoMano extends Fragment {
         return view;
     }
 
+    /**
+     * Busca una carta dentro del array de cartas.
+     * @param idCarta
+     * @return
+     */
     private Carta buscarCarta (int idCarta){
         for (Carta c: Datos.getCartas()){
             if (c.getId() == idCarta){

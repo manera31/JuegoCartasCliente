@@ -16,7 +16,7 @@ import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.joanmanera.juegocartascliente.R;
-import com.joanmanera.juegocartascliente.interfaces.APIUtils;
+import com.joanmanera.juegocartascliente.utils.APIUtils;
 import com.joanmanera.juegocartascliente.interfaces.ICRUD;
 import com.joanmanera.juegocartascliente.interfaces.IPartida;
 import com.joanmanera.juegocartascliente.modelos.Usuario;

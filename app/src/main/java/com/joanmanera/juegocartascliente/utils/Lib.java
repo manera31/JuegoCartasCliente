@@ -8,8 +8,17 @@ import java.util.Formatter;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * Clase para almacenar algunos métodos útiles.
+ * @author Joan Manera Perez
+ */
 public class Lib {
 
+    /**
+     * Encipta una contraseña en SHA1.
+     * @param password
+     * @return contraseña encriptada.
+     */
     public static String encryptPassword(String password) {
         String sha1 = "";
         try
@@ -41,15 +50,21 @@ public class Lib {
         return result;
     }
 
+    /**
+     * Crea un identificador único utilizando UUID.
+     * @return id string
+     */
     public static String getUUID(){
         return UUID.randomUUID().toString().replace("-", "");
     }
 
-    @Deprecated
-    public static double getDoubleUUID(){
-        return Double.parseDouble(String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)));
-    }
 
+    /**
+     * Crea un numero aleatorio entre un máximo y un mínimo.
+     * @param max
+     * @param min
+     * @return random int
+     */
     public static int getRandom(int max, int min){
         Random rdn = new Random();
         return rdn.nextInt(max - min + 1) + min;

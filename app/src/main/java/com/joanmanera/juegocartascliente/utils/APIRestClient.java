@@ -1,4 +1,4 @@
-package com.joanmanera.juegocartascliente.interfaces;
+package com.joanmanera.juegocartascliente.utils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

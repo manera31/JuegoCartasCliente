@@ -10,13 +10,25 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 
+/**
+ * Interfaz para hacer llamadas a la api con Retrofit.
+ * @author Joan Manera Perez
+ */
 public interface ICRUD {
 
+    /**
+     * Lista de cartas.
+     * @return lista de catas
+     */
     @GET("carta")
     Call<List<Carta>> getCartas();
 
+    /**
+     * Crear un usuario.
+     * @param usuario
+     * @return respuesta clave valor
+     */
     @POST("jugador")
     Call<RespuestaKeyValue> crearUsuario(@Body Usuario usuario);
 

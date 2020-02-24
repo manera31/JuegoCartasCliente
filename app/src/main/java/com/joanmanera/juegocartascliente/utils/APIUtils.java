@@ -1,4 +1,8 @@
-package com.joanmanera.juegocartascliente.interfaces;
+package com.joanmanera.juegocartascliente.utils;
+
+import com.joanmanera.juegocartascliente.interfaces.ICRUD;
+import com.joanmanera.juegocartascliente.interfaces.IEstadistica;
+import com.joanmanera.juegocartascliente.interfaces.IPartida;
 
 public class APIUtils {
     public static final String URL_PARTIDA = "http://192.168.1.71:8080/rest/partida/";
