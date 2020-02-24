@@ -9,15 +9,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.interfaces.APIUtils;
+import com.joanmanera.juegocartascliente.interfaces.ICRUD;
 import com.joanmanera.juegocartascliente.interfaces.IPartida;
+import com.joanmanera.juegocartascliente.modelos.Usuario;
+import com.joanmanera.juegocartascliente.respuestas.RespuestaKeyValue;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaLogin;
 import com.joanmanera.juegocartascliente.utils.Control;
 import com.joanmanera.juegocartascliente.utils.Lib;
@@ -26,59 +29,99 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/**
+ * Activity para controlar el inicio de sesión y el registro de la aplicación.
+ * @author Joan Manera Perez
+ */
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView tvRegistro;
-    private EditText etUser, etPass;
+    private TextView tvRegistro, tvTitulo;
+    private EditText etUser, etPass, etNombre, etApellidos;
     private Button bEntrar;
     private CheckBox cbRecordar;
     private SharedPreferences sharedPreferences;
-    private Retrofit retrofit;
-    private IPartida login;
+    private boolean esRegistro;
 
+    /**
+     * Método que se encarga de cargar todas las vistas que va a tener el activity.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        encontrarVistas();
+
+        etNombre.setVisibility(View.GONE);
+        etApellidos.setVisibility(View.GONE);
+        tvRegistro.setVisibility(View.VISIBLE);
+        tvTitulo.setText(R.string.login_titulo);
+        bEntrar.setText(R.string.login_entrar);
+
         if (sharedPreferences.getBoolean("cbRememberPreferences", false)){
             String usuario = sharedPreferences.getString("usuario", "");
             String pass = sharedPreferences.getString("pass", "");
             iniciarSesion(usuario, pass);
         }
 
-        etUser = findViewById(R.id.etUser);
-        etPass = findViewById(R.id.etPass);
-        cbRecordar = findViewById(R.id.cbRecordar);
-
-        tvRegistro = findViewById(R.id.tvRegistro);
         tvRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                tvTitulo.setText(R.string.registro_titulo);
+                etNombre.setVisibility(View.VISIBLE);
+                etApellidos.setVisibility(View.VISIBLE);
+                tvRegistro.setVisibility(View.GONE);
+                bEntrar.setText(R.string.registro_titulo);
+                esRegistro = true;
             }
         });
 
-        bEntrar = findViewById(R.id.bEntrar);
+
         bEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String usuario = etUser.getText().toString();
                 String pass = Lib.encryptPassword(etPass.getText().toString());
 
-                if(!usuario.equals("") && !pass.equals("")){
+                if (esRegistro){
+                    String nombre = etNombre.getText().toString();
+                    String apellidos = etApellidos.getText().toString();
+
+                    registrarse(usuario, pass, nombre, apellidos);
+
+                } else if(!usuario.equals("") && !pass.equals("")){
                     iniciarSesion(usuario, pass);
                 }
+
             }
         });
     }
 
+
+    private void encontrarVistas(){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        etNombre = findViewById(R.id.etNombre);
+        etApellidos = findViewById(R.id.etApellidos);
+        etUser = findViewById(R.id.etUser);
+        etPass = findViewById(R.id.etPass);
+        cbRecordar = findViewById(R.id.cbRecordar);
+        tvTitulo = findViewById(R.id.tvTitulo);
+        tvRegistro = findViewById(R.id.tvRegistro);
+        bEntrar = findViewById(R.id.bEntrar);
+    }
+
+    /**
+     * Hace una llamada al servidor para comprobar si el usuario y la contraseña es correcto.
+     * @param usuario
+     * @param pass
+     */
     private void iniciarSesion(final String usuario, final String pass){
 
-
-        login = APIUtils.getPartida();
+        IPartida login = APIUtils.getPartida();
         Call<RespuestaLogin> respuestaLoginCall = login.login(usuario+":"+pass);
 
         respuestaLoginCall.enqueue(new Callback<RespuestaLogin>() {
@@ -116,13 +159,63 @@ public class LoginActivity extends AppCompatActivity {
                         setResult(Activity.RESULT_OK, respuestaActivityLogin);
                         finish();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(android.R.id.content), "Usuario o contraseña incorrecto", Snackbar.LENGTH_LONG).show();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<RespuestaLogin> call, Throwable t) {
+
+            }
+        });
+    }
+
+    /**
+     * Se conecta al servidor pasandole los parametros para registrar a un nuevo usuario.
+     * @param user
+     * @param pass
+     * @param nombre
+     * @param apellidos
+     */
+    private void registrarse(final String user, String pass, String nombre, String apellidos){
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(APIUtils.URL_CRUD)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ICRUD registro = retrofit.create(ICRUD.class);
+
+        Call<RespuestaKeyValue> respuestaRegistro = registro.crearUsuario(new Usuario(user, nombre, apellidos, pass));
+
+        respuestaRegistro.enqueue(new Callback<RespuestaKeyValue>() {
+            @Override
+            public void onResponse(Call<RespuestaKeyValue> call, Response<RespuestaKeyValue> response) {
+                if(response.isSuccessful()){
+                    switch (response.body().getMap().get(user)){
+                        case Control.CRUD.USUARIO_EXISTE:
+                            Snackbar.make(findViewById(android.R.id.content), "El usuario ya esta registrado", Snackbar.LENGTH_LONG).show();
+                            break;
+                        case Control.CRUD.USUARIO_FALLO_GENERAL:
+                            Snackbar.make(findViewById(android.R.id.content), "Fallo general", Snackbar.LENGTH_LONG).show();
+                            break;
+                        case Control.CRUD.USUARIO_ANADIDO:
+                            Snackbar.make(findViewById(android.R.id.content), "Usuario añadido con éxito!", Snackbar.LENGTH_LONG).show();
+                            etNombre.setVisibility(View.GONE);
+                            etApellidos.setVisibility(View.GONE);
+                            tvRegistro.setVisibility(View.VISIBLE);
+                            tvTitulo.setText(R.string.login_titulo);
+                            bEntrar.setText(R.string.login_entrar);
+                            esRegistro = false;
+                            break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaKeyValue> call, Throwable t) {
 
             }
         });

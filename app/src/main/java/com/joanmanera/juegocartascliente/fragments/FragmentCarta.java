@@ -16,12 +16,22 @@ import androidx.fragment.app.Fragment;
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.modelos.Carta;
 
+/**
+ * Fragment para carga una carta.
+ */
 public class FragmentCarta extends Fragment {
 
     private TextView tvMarca, tvModelo, tvMotor, tvCilindros, tvPotencia, tvRPM, tvVelocidad, tvConsumo;
     private ImageView ivFotoCarta;
     private LinearLayout llTodo;
 
+    /**
+     * Carga todas las vistas del fragment.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +51,11 @@ public class FragmentCarta extends Fragment {
         return view;
     }
 
+    /**
+     * Carga una carta en las vistas.
+     * @param carta
+     * @param idCartaGanadora
+     */
     public void setCarta(Carta carta, int idCartaGanadora){
         if (idCartaGanadora == carta.getId() || idCartaGanadora == 0){
             llTodo.setBackgroundColor(Color.GREEN);

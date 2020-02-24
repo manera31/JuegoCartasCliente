@@ -11,28 +11,31 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.fragments.FragmentMenuPrincipal;
 import com.joanmanera.juegocartascliente.fragments.FragmentResultadoPartido;
-import com.joanmanera.juegocartascliente.interfaces.APIUtils;
-import com.joanmanera.juegocartascliente.interfaces.IPartida;
+import com.joanmanera.juegocartascliente.modelos.EstadisticaUsuario;
 import com.joanmanera.juegocartascliente.utils.Datos;
 import com.joanmanera.juegocartascliente.modelos.Usuario;
 import com.joanmanera.juegocartascliente.respuestas.RespuestaResultadoMano;
 
-import java.util.Date;
+import java.util.ArrayList;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-
+/**
+ * Activity para controlar la pantalla principal de la aplicación.
+ * @author Joan Manera Perez
+ */
 public class  MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FragmentMenuPrincipal fragmentMenuPrincipal;
     private String idSesion;
+    private ArrayList<EstadisticaUsuario> estadisticaUsuarios;
 
+    /**
+     * Carga los datos y inicia la activity de iniciar sesión.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,12 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         startActivityForResult(login, 1);
     }
 
+    /**
+     * Método para recibir la respuesta del inicio de sesión y la respuesta del resultado de la partida.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -55,7 +64,7 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
                     idSesion = data.getStringExtra("idSesion");
                     Usuario usuario = (Usuario)data.getSerializableExtra("usuario");
 
-                    fragmentMenuPrincipal = new FragmentMenuPrincipal(this, usuario, Datos.getEstadisticaUsuarios());
+                    fragmentMenuPrincipal = new FragmentMenuPrincipal(this, usuario);
                     getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentMenuPrincipal).commit();
                 }
                 break;
@@ -72,6 +81,10 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * Controla los eventos click que estén asociados.
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -91,6 +104,11 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * Carga las opciones del menu.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -98,6 +116,11 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         return true;
     }
 
+    /**
+     * Controla el evento click cuando se pulsa sobre un elemento del menu.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.itemPreferencias){
@@ -105,12 +128,6 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
             startActivity(preferencias);
         }
         return true;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
     }
 
     @Override
@@ -128,4 +145,7 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         Toast.makeText(this, "stop", Toast.LENGTH_SHORT).show();*/
         super.onStop();
     }
+
+
+
 }

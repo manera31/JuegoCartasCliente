@@ -19,6 +19,10 @@ import com.joanmanera.juegocartascliente.modelos.Carta;
 import com.joanmanera.juegocartascliente.respuestas.EnvioJugarCarta;
 import com.joanmanera.juegocartascliente.utils.Enums;
 
+/**
+ * Dialogo para seleccionar una característica del jugador.
+ * @author Joan Manera Perez
+ */
 public class DialogoSeleccionCaracteristica extends DialogFragment {
 
     private RadioGroup rgCaracteristicas;
@@ -26,11 +30,21 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
     private Carta carta;
     private IRespuestas listener;
 
+    /**
+     * Constructor.
+     * @param carta
+     * @param listener
+     */
     public DialogoSeleccionCaracteristica (Carta carta, IRespuestas listener){
         this.carta = carta;
         this.listener = listener;
     }
 
+    /**
+     * Crea el dialogo.
+     * @param savedInstanceState
+     * @return dialogo
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -79,8 +93,14 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
                             case R.id.rbConsumo:
                                 caracteristica = Enums.Caracteristica.CONSUMO;
                                 break;
+                            default:
+
+                                break;
                         }
-                        listener.onSeleccionCartaJugador(carta.getId(), caracteristica);
+                        if (caracteristica != null) {
+                            listener.onSeleccionCartaJugador(carta.getId(), caracteristica);
+                        }
+
                     }
                 })
                 .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {

@@ -15,4 +15,9 @@ public abstract class Control {
         public static final int YA_CONECTADO = -22;
         public static final int USUARIO_PASS_INCORRECTO = -23;
     }
+    public abstract static class CRUD {
+        public static final int USUARIO_ANADIDO = -31;
+        public static final int USUARIO_EXISTE = -32;
+        public static final int USUARIO_FALLO_GENERAL = -33;
+    }
 }

@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:text="@string/login_titulo"
         android:textSize="50dp"
         android:textStyle="bold" />
 
@@ -40,6 +39,22 @@
             android:hint="@string/login_pass"
             android:importantForAutofill="no"
             android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/registro_nombre"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/etApellidos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/registro_apellidos"
+            android:inputType="textPersonName" />
 
         <CheckBox
             android:id="@+id/cbRecordar"

@@ -13,13 +13,27 @@ import com.joanmanera.juegocartascliente.modelos.EstadisticaUsuario;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter para cargas las posiciones del ranking en un recyclerview.
+ * @author Joan Manera Perez
+ */
 public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingHolder> {
     private ArrayList<EstadisticaUsuario> estadisticaUsuarios;
 
+    /**
+     * Constructor del adapter.
+     * @param estadisticaUsuarios
+     */
     public RankingAdapter (ArrayList<EstadisticaUsuario> estadisticaUsuarios){
         this.estadisticaUsuarios = estadisticaUsuarios;
     }
 
+    /**
+     * Crea la vista.
+     * @param parent
+     * @param viewType
+     * @return viewholder
+     */
     @NonNull
     @Override
     public RankingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -27,20 +41,36 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingH
         return new RankingHolder(view);
     }
 
+    /**
+     * Carga todas la posiciones.
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull RankingHolder holder, int position) {
         holder.bindRanking(position);
     }
 
+    /**
+     * Numero de estadísticas del array
+     * @return Numero de estadísticas..
+     */
     @Override
     public int getItemCount() {
         return estadisticaUsuarios.size();
     }
 
+    /**
+     * View holder para mostrar una a una todas las estadísticas.
+     */
     public class RankingHolder extends RecyclerView.ViewHolder{
 
         private TextView tvNick, tvGanadas, tvEmpates, tvPerdidas;
 
+        /**
+         * Constructor.
+         * @param itemView
+         */
         public RankingHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -51,6 +81,10 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.RankingH
 
         }
 
+        /**
+         * Carga todos los datos de una estadística.
+         * @param posicion
+         */
         public void bindRanking(int posicion){
             EstadisticaUsuario estadisticaUsuario = estadisticaUsuarios.get(posicion);
 

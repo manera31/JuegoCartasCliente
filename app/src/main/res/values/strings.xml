@@ -9,9 +9,12 @@
     <string name="login_usuario">User</string>
     <string name="login_pass">Password</string>
     <string name="login_titulo">Login</string>
+    <string name="registro_titulo">Sign in</string>
+    <string name="registro_nombre">Name</string>
+    <string name="registro_apellidos">Surnames</string>
     <string name="login_registro">Register for free by clicking here!</string>
     <string name="main_crear_partida">New Game</string>
-    <string name="main_ver_ranking">Ranking</string>
+    <string name="main_ver_ranking">Top 5 users</string>
     <string name="main_ver_cartas">See all cards</string>
     <string name="main_winrate_cartas">Cards Winrate</string>
     <string name="carta_etiqueta_motor">Motor :</string>

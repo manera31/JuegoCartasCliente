@@ -28,8 +28,11 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
+/**
+ * Activity para controlar las tiradas del jugador.
+ * @author Joan Manera Perez
+ */
 public class JuegoActivity extends AppCompatActivity implements IRespuestas, View.OnClickListener {
 
     private IPartida partida;
@@ -59,6 +62,10 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
 
     }
 
+    /**
+     * Hace una petición a la api y crea una nueva partida en el servidor.
+     * @param idSesion
+     */
     private void crearJuego(String idSesion){
 
 
@@ -95,6 +102,9 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         });
     }
 
+    /**
+     * Hace una petición al servidor para sortear quin empieza sacando.
+     */
     private void sortearInicio(){
 
         idSesionPartida = new StringBuilder();
@@ -137,21 +147,20 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
     }
 
     private void jugar(){
-
         switch (turno){
             case CPU:
                 recibirCartaCPU();
                 break;
             case Jugador:
-                FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, null, this, mano);
+                FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, null, JuegoActivity.this, mano);
                 getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentJuego).commit();
                 break;
         }
-
-
-
     }
 
+    /**
+     * Llama al api diciendo que el cliente esta listo y le devuelve la caracteristica de la CPU.
+     */
     private void recibirCartaCPU() {
 
         Call<RespuestaJugarCartaCPU> respuestaJugarCartaCPUCall = partida.clienteListo(idSesionPartida.toString());
@@ -172,12 +181,20 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
 
     }
 
+    /**
+     * Listener para controlar cuando se recibe la caracteristica de la CPU.
+     * @param respuestaJugarCartaCPU
+     */
     @Override
     public void onCartaRecibidaCPU(RespuestaJugarCartaCPU respuestaJugarCartaCPU) {
         FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, respuestaJugarCartaCPU.getCaracteristica(), this, mano);
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentJuego).commit();
     }
 
+    /**
+     * Listener para controlar cuando se recible la respuesta del ganador de la mano.
+     * @param respuestaResultadoMano
+     */
     @Override
     public void onRespuestaGanadorMano(RespuestaResultadoMano respuestaResultadoMano) {
         respuestaResultadoManoAux = respuestaResultadoMano;
@@ -185,6 +202,11 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentResultadoMano).commit();
     }
 
+    /**
+     * Listener para controlar cuando el jugador selecciona una carta de su baraja.
+     * @param idCarta
+     * @param caracteristica
+     */
     @Override
     public void onSeleccionCartaJugador(int idCarta, Enums.Caracteristica caracteristica) {
         EnvioJugarCarta envioJugarCarta = new EnvioJugarCarta(idSesion, idPartida, idCarta, caracteristica);
@@ -207,7 +229,10 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
     }
 
 
-    // Listener para controlar el boton de la pantalla de ver el resultado
+    /**
+     * Cotnrola el click del boton continuar.
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bContinuarFRM){

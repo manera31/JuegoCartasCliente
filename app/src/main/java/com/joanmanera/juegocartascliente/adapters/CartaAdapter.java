@@ -13,15 +13,30 @@ import com.joanmanera.juegocartascliente.modelos.Carta;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter para mostrar las cartas en un recyclerview.
+ * @author Joan Manera Perez
+ */
 public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder> {
     private ArrayList<Carta> cartas;
     private ICartaListener listener;
 
+    /**
+     * Constructor del adapter.
+     * @param cartas
+     * @param listener
+     */
     public CartaAdapter (ArrayList<Carta> cartas, ICartaListener listener){
         this.cartas = cartas;
         this.listener = listener;
     }
 
+    /**
+     * Define la vista.
+     * @param parent
+     * @param viewType
+     * @return viewholder
+     */
     @NonNull
     @Override
     public CartaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,16 +44,29 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
         return new CartaHolder(view, listener);
     }
 
+    /**
+     * Carga todas las cartas.
+     * @param holder
+     * @param position
+     */
     @Override
     public void onBindViewHolder(@NonNull CartaHolder holder, int position) {
         holder.bindCarta(position);
     }
 
+    /**
+     * Numero de cartas de la baraja.
+     * @return Numero de cartas.
+     */
     @Override
     public int getItemCount() {
         return cartas.size();
     }
 
+    /**
+     * Método para quitar una carta de la baraja cuando ya haya salido.
+     * @param idCarta
+     */
     public void quitarCarta(int idCarta){
         for (Carta c: cartas){
             if (c.getId() == idCarta){
@@ -48,6 +76,10 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
         }
     }
 
+    /**
+     * View holder para mostrar una a una todas las cartas.
+     * @author Joan Manera Perez
+     */
     public class CartaHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvMarca;
@@ -61,6 +93,11 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
         private ICartaListener listener;
 
 
+        /**
+         * Constructor.
+         * @param itemView
+         * @param listener
+         */
         public CartaHolder(@NonNull View itemView, ICartaListener listener) {
             super(itemView);
             this.listener = listener;
@@ -76,6 +113,10 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * Método para cargar los datos de una carta.
+         * @param posicion
+         */
         public void bindCarta(int posicion){
             Carta carta = cartas.get(posicion);
 
@@ -90,6 +131,10 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
 
         }
 
+        /**
+         * Listener para controlar el click sobre la carta.
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             if (listener != null){

@@ -24,6 +24,10 @@ import com.joanmanera.juegocartascliente.utils.Enums;
 
 import java.util.ArrayList;
 
+/**
+ * Fragment para controlar las tiradas del jugador.
+ * @author Joan Manera Perez
+ */
 public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListener {
 
     private CartaAdapter adapter;
@@ -38,6 +42,13 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
     private IRespuestas listener;
     private int mano;
 
+    /**
+     * Constructor.
+     * @param cartasJugador
+     * @param caracteristica
+     * @param lisener
+     * @param mano
+     */
     public FragmentJuego(ArrayList<Carta> cartasJugador, Enums.Caracteristica caracteristica, IRespuestas lisener, int mano){
         this.cartasJugador = cartasJugador;
         this.caracteristica = caracteristica;
@@ -45,6 +56,13 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
         this.mano = mano;
     }
 
+    /**
+     * Busca las vistas del fragment
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return view
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,6 +117,10 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
         return view;
     }
 
+    /**
+     * Carga la carta que se ha seleccionado en una layout mas grande.
+     * @param carta
+     */
     @Override
     public void onCartaSeleccionada(Carta carta) {
         cartaActual = carta;

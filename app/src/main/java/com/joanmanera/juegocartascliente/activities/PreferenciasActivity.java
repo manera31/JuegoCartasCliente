@@ -8,7 +8,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.fragments.FragmentPreferencias;
 
+/**
+ * Activity para cargar las preferencias.
+ * @author Joan Manera Perez
+ */
 public class PreferenciasActivity extends AppCompatActivity {
+
+    /**
+     * Carga el fragment de las preferencias.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
