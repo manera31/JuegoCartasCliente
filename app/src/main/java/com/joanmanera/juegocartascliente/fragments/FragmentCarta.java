@@ -61,7 +61,8 @@ public class FragmentCarta extends Fragment {
             llTodo.setBackgroundColor(Color.GREEN);
         }
 
-        ivFotoCarta.setBackgroundResource(R.drawable.mclaren);
+        int id = getContext().getResources().getIdentifier("_"+carta.getId(), "drawable", getContext().getPackageName());
+        ivFotoCarta.setImageResource(id);
         tvMarca.setText(carta.getMarca());
         tvModelo.setText(carta.getModelo());
         tvMotor.setText(String.valueOf(carta.getMotor()));

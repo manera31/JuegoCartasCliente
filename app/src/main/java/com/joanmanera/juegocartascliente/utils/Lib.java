@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Lib {
 
     /**
-     * Encipta una contraseña en SHA1.
+     * Encripta una contraseña en SHA1.
      * @param password
      * @return contraseña encriptada.
      */

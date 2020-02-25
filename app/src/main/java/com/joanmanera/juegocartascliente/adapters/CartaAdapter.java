@@ -1,8 +1,10 @@
 package com.joanmanera.juegocartascliente.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,15 +22,17 @@ import java.util.ArrayList;
 public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder> {
     private ArrayList<Carta> cartas;
     private ICartaListener listener;
+    private Context context;
 
     /**
      * Constructor del adapter.
      * @param cartas
      * @param listener
      */
-    public CartaAdapter (ArrayList<Carta> cartas, ICartaListener listener){
+    public CartaAdapter (ArrayList<Carta> cartas, ICartaListener listener, Context context){
         this.cartas = cartas;
         this.listener = listener;
+        this.context = context;
     }
 
     /**
@@ -41,7 +45,7 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
     @Override
     public CartaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_carta_miniatura, parent, false);
-        return new CartaHolder(view, listener);
+        return new CartaHolder(view, listener, context);
     }
 
     /**
@@ -91,6 +95,8 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
         private TextView tvVelocidad;
         private TextView tvConsumo;
         private ICartaListener listener;
+        private ImageView ivFotoCarta;
+        private Context context;
 
 
         /**
@@ -98,10 +104,12 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
          * @param itemView
          * @param listener
          */
-        public CartaHolder(@NonNull View itemView, ICartaListener listener) {
+        public CartaHolder(@NonNull View itemView, ICartaListener listener, Context context) {
             super(itemView);
             this.listener = listener;
+            this.context = context;
 
+            ivFotoCarta = itemView.findViewById(R.id.ivFotoCarta2);
             tvMarca = itemView.findViewById(R.id.tvMarca2);
             tvModelo = itemView.findViewById(R.id.tvModelo2);
             tvMotor = itemView.findViewById(R.id.tvMotor2);
@@ -120,6 +128,8 @@ public class CartaAdapter extends RecyclerView.Adapter<CartaAdapter.CartaHolder>
         public void bindCarta(int posicion){
             Carta carta = cartas.get(posicion);
 
+            int id = context.getResources().getIdentifier("_"+carta.getId(), "drawable", context.getPackageName());
+            ivFotoCarta.setImageResource(id);
             tvMarca.setText(carta.getMarca());
             tvModelo.setText(carta.getModelo());
             tvMotor.setText(String.valueOf(carta.getMotor()));

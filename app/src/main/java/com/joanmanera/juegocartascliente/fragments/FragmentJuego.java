@@ -69,12 +69,12 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
         View view = inflater.inflate(R.layout.fragment_juego, container, false);
 
         recyclerView = view.findViewById(R.id.recycler);
-        adapter = new CartaAdapter(cartasJugador, this);
+        adapter = new CartaAdapter(cartasJugador, this, getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
         ivFotoCarta = view.findViewById(R.id.ivFotoCarta);
-        ivFotoCarta.setBackgroundResource(R.drawable.carta_default);
+        ivFotoCarta.setImageResource(R.drawable.carta_default);
         tvMarca = view.findViewById(R.id.tvMarca);
         tvModelo = view.findViewById(R.id.tvModelo);
         tvMotor = view.findViewById(R.id.tvMotor);
@@ -124,7 +124,8 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
     @Override
     public void onCartaSeleccionada(Carta carta) {
         cartaActual = carta;
-        ivFotoCarta.setBackgroundResource(R.drawable.mclaren);
+        int id = getContext().getResources().getIdentifier("_"+carta.getId(), "drawable", getContext().getPackageName());
+        ivFotoCarta.setImageResource(id);
         tvMarca.setText(carta.getMarca());
         tvModelo.setText(carta.getModelo());
         tvMotor.setText(String.valueOf(carta.getMotor()));

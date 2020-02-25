@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "246588858870",
+    "firebase_url": "https://juegocartas-87ce5.firebaseio.com",
+    "project_id": "juegocartas-87ce5",
+    "storage_bucket": "juegocartas-87ce5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246588858870:android:2dd0346c6eb22d692a27d7",
+        "android_client_info": {
+          "package_name": "com.joanmanera.juegocartascliente"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "246588858870-cfv56p0ohdj7fud8oc92uq019dn9br6v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joanmanera.juegocartascliente",
+            "certificate_hash": "2483a3eec6e9fcf426bb077b63394ab23df77881"
+          }
+        },
+        {
+          "client_id": "246588858870-uj4ffmbmoommcu385a4cpkr4v9rrg4j5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL0zjL2nNcDKvtch3Fy6XYJ4AohCqoZKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "246588858870-uj4ffmbmoommcu385a4cpkr4v9rrg4j5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
