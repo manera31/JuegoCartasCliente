@@ -24,17 +24,17 @@ Si no disponemos de un usuario, nos podemos crear uno pinchando en el mensaje de
 
 
 # Pantalla de registro
-![Pantalla registro](registro.jpg)
+![Pantalla registro](capturas/registro.jpg)
 
 
 En esta pantalla escribiremos nuestro **usuario**, **contraseña**, **nombre** y **apellidos** y se registrará en la aplicación. Si el usuario ya existe, aparecerá un **mensaje de error**.
 
 
-![Mensaje usuario en uso](mensaje_registro.jpg)
+![Mensaje usuario en uso](capturas/mensaje_registro.jpg)
 
 # Pantalla principal
 
-![Pantalla principal](inicio.jpg)
+![Pantalla principal](capturas/inicio.jpg)
 
 
 En esta pantalla disponemos de un ranking con los **5 mejores jugadores** ordenados por número de victorias.
@@ -46,7 +46,7 @@ La última función de esta pantalla es la de **crear un nuevo juego**.
 
 # Pantalla preferencias
 
-![Pantalla preferencias](preferencias.jpg)
+![Pantalla preferencias](capturas/preferencias.jpg)
 
 
 Aquí podremos **desmarcar la opción de recordar el usuario y la contraseña** y la próxima vez que iniciemos sesión nos volverá a pedir estos datos.
@@ -56,7 +56,7 @@ Si queremos **cerrar la sesión**, solo tendremos que pulsar sobre cerrar sesió
 
 # Pantalla selección de carta
 
-![Pantalla selección de carta](seleccion_carta.jpg)
+![Pantalla selección de carta](capturas/seleccion_carta.jpg)
 
 
 Al empezar el juego, la aplicación nos mostrará esta pantalla que tiene las **cartas que nos han tocado**.
@@ -68,7 +68,7 @@ Si ha empezado la CPU, nos aparecerá directamente la caracteristica que ha eleg
 
 ## Dialogo selección de característica
 
-![Dialogo selección de característica](seleccion_caracteristica.jpg)
+![Dialogo selección de característica](capturas/seleccion_caracteristica.jpg)
 
 
 Después de haber seleccionado la característica pulamos sobre **enviar**. El servidor seleccionara la carta de la CPU y nos mostrará el **resultado de la mano**.
@@ -76,7 +76,7 @@ Después de haber seleccionado la característica pulamos sobre **enviar**. El s
 
 # Pantalla del resultado de la mano
 
-![Pantalla resultado de la mano](resultado_mano.jpg)
+![Pantalla resultado de la mano](capturas/resultado_mano.jpg)
 
 
 Nos mostrará la característica que estaba jugando y las dos cartas. Marcará en **verde la que ha ganado** o las marcará a **las dos si es un empate**.
@@ -86,7 +86,7 @@ Para continuar en el juego pulsamos sobre el botón de **continuar**.
 
 # Pantalla del resultado de la partida
 
-![Pantalla resultado de la partida](resultado_partida.jpg)
+![Pantalla resultado de la partida](capturas/resultado_partida.jpg)
 
 
 Cuando se hayan jugado todas las rondas, nos mostrará el **resultado de la partida**. En **verde si has ganado**, **en rojo si has perdido** o **sin ningún color si has empatado**.
