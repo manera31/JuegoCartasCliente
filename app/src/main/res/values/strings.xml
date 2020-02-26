@@ -4,7 +4,7 @@
     <string name="preferencais_cerrar_sesion">Sing off</string>
     <string name="preferencais_cerrar_sesion_submensaje">Press me!</string>
     <string name="preferencias">Preferences</string>
-    <string name="preferencias_dificultad">Game Difficulty</string>
+    <string name="preferencias_dificultad">Bot Difficulty</string>
     <string-array name="preferencias_niveles_dificultad">
         <item>Off</item>
         <item>Random</item>
