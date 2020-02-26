@@ -87,7 +87,6 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.bNuevaPartida:
                 Intent juego = new Intent(this, JuegoActivity.class);
-                juego.putExtra("cartas", Datos.getCartas());
                 juego.putExtra("idSesion", idSesion);
                 startActivityForResult(juego, 2);
 
