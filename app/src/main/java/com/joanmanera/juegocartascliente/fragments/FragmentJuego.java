@@ -88,6 +88,7 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
 
         tvMano.setText(String.valueOf(mano+1));
 
+        // Si existe una característica se muestra. Indica que ha empezado la CPU
         if (caracteristica != null){
             tvCaracteristica.setText(caracteristica.toString());
         } else {
@@ -95,16 +96,22 @@ public class FragmentJuego extends Fragment implements CartaAdapter.ICartaListen
         }
 
         llCarta = view.findViewById(R.id.llCarta);
+        // Controla el click sobre la carta (grande).
         llCarta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Comprueba si se ha seleccionado una carta.
                 if (!tvMarca.getText().equals("")){
+                    // Si se ha seleccionado.
                     if (caracteristica != null){
+                        // Si ha empezado la CPU (la característica ya estaba seleccionada) se envia la carta seleccionada.
                         listener.onSeleccionCartaJugador(cartaActual.getId(), caracteristica);
                     } else {
+                        // Si ha empezado el jugador cargará un dialogo para seleccionar la característica deseada.
                         DialogoSeleccionCaracteristica dialogo = new DialogoSeleccionCaracteristica(cartaActual, listener);
                         dialogo.show(getActivity().getSupportFragmentManager(), "dialogo");
                     }
+                    // Quita la carta del recyclerview.
                     adapter.quitarCarta(cartaActual.getId());
 
                 } else {

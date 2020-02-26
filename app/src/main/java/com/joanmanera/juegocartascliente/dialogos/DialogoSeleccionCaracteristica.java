@@ -61,6 +61,7 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
         rbVelocidad = view.findViewById(R.id.rbVelocidad);
         rbConsumo = view.findViewById(R.id.rbConsumo);
 
+        // Se muestra las características de la carta.
         rbMotor.append(" " + carta.getMotor());
         rbCilindros.append(" " + carta.getCilindros());
         rbPotencia.append(" " + carta.getPotencia());
@@ -74,6 +75,7 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         Enums.Caracteristica caracteristica = null;
                         int i = rgCaracteristicas.getCheckedRadioButtonId();
+                        // Comprueba que característica se ha marcado.
                         switch (i){
                             case R.id.rbMotor:
                                 caracteristica = Enums.Caracteristica.MOTOR;
@@ -97,6 +99,7 @@ public class DialogoSeleccionCaracteristica extends DialogFragment {
 
                                 break;
                         }
+                        // Envía el identificador de la carta y la característica.
                         if (caracteristica != null) {
                             listener.onSeleccionCartaJugador(carta.getId(), caracteristica);
                         }

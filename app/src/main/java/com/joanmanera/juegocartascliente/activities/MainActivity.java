@@ -40,8 +40,10 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Carga las cartas y las deja en memoria.
         Datos.cargarCartas();
 
+        // Inica el activity que controla el inicio de sesión / registro.
         Intent login = new Intent(this, LoginActivity.class);
         startActivityForResult(login, 1);
     }
@@ -56,19 +58,25 @@ public class  MainActivity extends AppCompatActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
+            // Respuesta de la pantalla de inicio de sesión.
             case 1:
                 if (resultCode == Activity.RESULT_OK) {
+                    // Guardamos su identificador de sesión y su usuario.
                     idSesion = data.getStringExtra("idSesion");
                     Usuario usuario = (Usuario)data.getSerializableExtra("usuario");
 
+                    // Iniciamos el fragment de la pantalla principal.
                     fragmentMenuPrincipal = new FragmentMenuPrincipal(this, usuario);
                     getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentMenuPrincipal).commit();
                 }
                 break;
+
+            // Respuesta de la pantalla de juego. Indica que se ha finalizado una partida.
             case 2:
                 if (resultCode == Activity.RESULT_OK){
                     RespuestaResultadoMano respuestaResultadoMano = (RespuestaResultadoMano) data.getSerializableExtra("respuestaResultadoMano");
 
+                    // Iniciamos el fragment para mostrar el resultado de la partida.
                     FragmentResultadoPartido fragmentResultadoPartido = new FragmentResultadoPartido(respuestaResultadoMano, this);
                     getSupportFragmentManager().beginTransaction().replace(R.id.contenedor, fragmentResultadoPartido).commit();
                 }

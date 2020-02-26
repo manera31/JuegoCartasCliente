@@ -60,12 +60,15 @@ public class FragmentResultadoPartido extends Fragment {
 
         bContinuarFRP.setOnClickListener(listener);
         if (respuestaResultadoMano.getContadorPuntosJugaor() > respuestaResultadoMano.getContadorPuntosCPU()){
+            // Si el jugador ha ganado mas que la CPU
             tvTitulo.setText(R.string.partida_ganador_jugador);
             llResultado.setBackgroundColor(Color.GREEN);
         } else if (respuestaResultadoMano.getContadorPuntosJugaor() == respuestaResultadoMano.getContadorPuntosCPU()){
+            // Si han ganado lo mismo
             tvTitulo.setText(R.string.partida_ganador_empate);
 
         } else {
+            // Si la CPU ha ganado mas que el jugador
             tvTitulo.setText(R.string.partida_ganador_cpu);
             llResultado.setBackgroundColor(Color.RED);
 

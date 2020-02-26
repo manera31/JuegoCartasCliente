@@ -177,21 +177,25 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
             case Jugador:
                 switch (modoBot){
                     case DESACTIVADO:
+                        // Inicia el fragment para que el jugador seleccione su carta.
                         FragmentJuego fragmentJuego = new FragmentJuego(cartasJugador, null, JuegoActivity.this, mano);
                         getSupportFragmentManager().beginTransaction().replace(R.id.contenedorJuego, fragmentJuego).commit();
                         break;
                     case ALEATORIO:
+                        // Llama a los métodos para seleccionar una carta y una caractrística aleatoria.
                         int idCartaAleatoria = seleccionarCartaAleatoria();
                         Enums.Caracteristica caracteristicaAleatoria = seleccionarCaracteristicaAleatoria();
                         listener.onSeleccionCartaJugador(idCartaAleatoria, caracteristicaAleatoria);
                         break;
                     case INTELOGENCIA_SUPREMA:
+                        // Llama al método para sacar la mejor carta posible.
                         Object[] idCartaCaracteristica = seleccionarCartaEstadistica();
                         int idCarta = (int)idCartaCaracteristica[0];
                         Enums.Caracteristica caracteristica = (Enums.Caracteristica)idCartaCaracteristica[1];
                         listener.onSeleccionCartaJugador(idCarta, caracteristica);
                         break;
                     case NIVEL_DIOS:
+                        // TODO Implementar.
                         break;
                 }
 
@@ -199,11 +203,13 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         }
     }
 
+    // Selecciona una característica aleatoria.
     private Enums.Caracteristica seleccionarCaracteristicaAleatoria() {
         int numeroAleatorio = Lib.getRandom(Enums.Caracteristica.values().length-1, 0);
         return Enums.Caracteristica.values()[numeroAleatorio];
     }
 
+    // Selecciona una carta aleatoria de las que posee.
     private int seleccionarCartaAleatoria() {
         int numeroAleatorio = Lib.getRandom(cartasJugador.size()-1, 0);
         int idCartaAleatoria = cartasJugador.get(numeroAleatorio).getId();
@@ -211,13 +217,17 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         return idCartaAleatoria;
     }
 
+    // Genera las estadísticas de todas las cartas del jugador y las deja en memoria para su posterior uso.
     private void cargarEstadisticasCartasJugador(){
+        // Diferencia entre todas las cartas = valor máximo - valor mínimo. Ej: (maxMotor = 3590) - (minMotor = 1461) = 2129.
         final double difMot = 2129, difPot = 166, difVel = 80, difCil = 2, difRPM = 1500, difCon = 12.2;
+        // Valor mínimo de todas las cartas.
         final double minMot = 1461, minPot = 64, minVel = 160, minCil = 4, minRPM = 4600, minCon = 5.8;
 
-        // Calculo del valor de cada carta
+
         cartaEstadisticas = new ArrayList<>();
 
+        // Mapa para guardar los valores de cada característica POR CARTA.
         HashMap<Enums.Caracteristica, Double> map;
 
         for (Carta c: cartasJugador){
@@ -226,6 +236,8 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
             map.put(Enums.Caracteristica.POTENCIA, calculoEstadictica(c.getPotencia(), minPot, difPot));
             map.put(Enums.Caracteristica.VELOCIDAD, calculoEstadictica(c.getVelocidad(), minVel, difVel));
             map.put(Enums.Caracteristica.CILINDROS, calculoEstadictica(c.getCilindros(), minCil, difCil));
+
+            // Como rpm y consumo funcionan diferente (cuanto menos mejor), invertimos el porcentaje.
             map.put(Enums.Caracteristica.RPM, 100 - calculoEstadictica(c.getRpm(), minRPM, difRPM));
             map.put(Enums.Caracteristica.CONSUMO, 100 - calculoEstadictica(c.getConsumo(), minCon, difCon));
 
@@ -238,6 +250,7 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         return ((valor - minimo) * 100) / diferencia;
     }
 
+    // Turno Jugador. Selecciona una carta comparando cual es mas probable que gane.
     private Object[] seleccionarCartaEstadistica(){
         CartaEstadistica cartaAux = null;
         int idCarta = -1;
@@ -245,13 +258,18 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         Enums.Caracteristica caracteristicaAux = null, caracteristica = null;
 
 
+        // Recorremos las cartas disponibles.
         for (CartaEstadistica ce: cartaEstadisticas){
+            // Comparamos todas las estadísticas de esa carta.
             for (Enums.Caracteristica caracteristica1: Enums.Caracteristica.values()){
+                // Si su porcentaje es mayor se guarda la carta y la característica.
                 if (ce.getMapaEstadisticas().get(caracteristica1) > maxValorAux){
                     maxValorAux = ce.getMapaEstadisticas().get(caracteristica1);
                     caracteristicaAux = caracteristica1;
                 }
             }
+
+            // Si el porcentaje mayor de la carta (que acabamos de comprobar) es mayor al anterior se guarda.
             if (maxValorAux > maxValor){
                 cartaAux = ce;
                 idCarta = ce.getId();
@@ -260,8 +278,10 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
             }
         }
 
+        // Se elimina la carta porque ya está jugada.
         cartaEstadisticas.remove(cartaAux);
 
+        // Devuelve un objeto con el identificador de la carta y la característica.
         return new Object[]{idCarta, caracteristica};
     }
 
@@ -307,13 +327,15 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
 
     }
 
+    // Turno CPU. Seleccionamos la carta que sea mas probable que gane dependiendo de la característica de la CPU.
     private int seleccionarCartaEstadistica(Enums.Caracteristica caracteristica){
         CartaEstadistica cartaAux = null;
         int idCarta = -1;
         double maxValor = -1;
 
-
+        // Recorremos todas las estadísticas
         for (CartaEstadistica ce: cartaEstadisticas){
+            // Si el valor de la estadistica es mayor a alguno anterior se guarda el identificador de la carta.
             if (ce.getMapaEstadisticas().get(caracteristica) > maxValor){
                 cartaAux = ce;
                 idCarta = ce.getId();
@@ -321,6 +343,7 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
             }
         }
 
+        // Elimina la carta de la baraja porque ya ha salido.
         cartaEstadisticas.remove(cartaAux);
 
         return idCarta;
@@ -382,6 +405,8 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
     public void onClick(View v) {
         if (v.getId() == R.id.bContinuarFRM){
             mano++;
+
+            // Si la mano es menor a 6 cambia el turno.
             if (mano < 6){
                 if (turno == Enums.Turno.CPU){
                     turno = Enums.Turno.Jugador;
@@ -389,7 +414,9 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
                     turno = Enums.Turno.CPU;
                 }
                 jugar();
+
             } else {
+                // Sinó, finaliza la activity pasando el resultado por un intent.
                 Intent respuesta = new Intent();
                 respuesta.putExtra("respuestaResultadoMano", respuestaResultadoManoAux);
                 setResult(Activity.RESULT_OK, respuesta);

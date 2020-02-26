@@ -50,13 +50,15 @@ public class FragmentResultadoMano extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_resultado_mano, container, false);
 
-
+        // Carga un fragment (no a pantalla completa) de la carta del jugador y de la carta ganadora.
         fragmentCartaJugador = (FragmentCarta)getChildFragmentManager().findFragmentById(R.id.fCartaJugador);
         fragmentCartaJugador.setCarta(buscarCarta(respuestaResultadoMano.getIdCartaJugador()), respuestaResultadoMano.getIdCartaGanadora());
 
+        // Carga un fragment (no a pantalla completa) de la carta de la CPU y de la carta ganadora.
         fragmentCartaCPU = (FragmentCarta)getChildFragmentManager().findFragmentById(R.id.fCartaCPU);
         fragmentCartaCPU.setCarta(buscarCarta(respuestaResultadoMano.getIdCartaCPU()), respuestaResultadoMano.getIdCartaGanadora());
 
+        // Escribe la caracterísica en el layout.
         tvCaracteristicaResultado = view.findViewById(R.id.tvCaracteristicaResultado);
         tvCaracteristicaResultado.setText(respuestaResultadoMano.getCaracteristica().toString());
 

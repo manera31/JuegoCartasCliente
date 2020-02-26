@@ -62,12 +62,14 @@ public class LoginActivity extends AppCompatActivity {
         tvTitulo.setText(R.string.login_titulo);
         bEntrar.setText(R.string.login_entrar);
 
+        // Si esta activada la opcion de recordar usuario y contraseña inicia sesión directamente sin pedir datos.
         if (sharedPreferences.getBoolean("cbRememberPreferences", false)){
             String usuario = sharedPreferences.getString("usuario", "");
             String pass = sharedPreferences.getString("pass", "");
             iniciarSesion(usuario, pass);
         }
 
+        // Si se pulsa sobre registro modifica el layout.
         tvRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        // Si se pulsa sobre iniciar sesión/ registrarse.
         bEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,12 +91,14 @@ public class LoginActivity extends AppCompatActivity {
                 String pass = Lib.encryptPassword(etPass.getText().toString());
 
                 if (esRegistro){
+                    // Si es un registro ejecuta el método para guardar al nuevo usuario.
                     String nombre = etNombre.getText().toString();
                     String apellidos = etApellidos.getText().toString();
 
                     registrarse(usuario, pass, nombre, apellidos);
 
                 } else if(!usuario.equals("") && !pass.equals("")){
+                    // Si es un inicio de sesión se inicia sesíon.
                     iniciarSesion(usuario, pass);
                 }
 
@@ -129,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<RespuestaLogin> call, Response<RespuestaLogin> response) {
                 if (response.isSuccessful()){
 
+                    // Si se ha marcado la casilla para recordar el usuario y la contraseña se guardan en las preferencias. Encripadas.
                     if (cbRecordar.isChecked()){
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("usuario", usuario);
@@ -137,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
                     }
 
+                    // Este es el código que debería ir, pero como no controlo el cerrar sesíon, solo me podria conectar una vez.
                     /*switch (response.body().getCodigoError()){
                         case Control.Login.USUARIO_PASS_INCORRECTO:
                             Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
@@ -152,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                             break;
                     }*/
+
                     if (response.body().getCodigoError() != Control.Login.USUARIO_PASS_INCORRECTO){
                         Intent respuestaActivityLogin = new Intent();
                         respuestaActivityLogin.putExtra("idSesion", response.body().getIdSesion());
@@ -159,7 +167,6 @@ public class LoginActivity extends AppCompatActivity {
                         setResult(Activity.RESULT_OK, respuestaActivityLogin);
                         finish();
                     } else {
-                        //Toast.makeText(LoginActivity.this, "Usuario o contraseña incorrecto", Toast.LENGTH_SHORT).show();
                         Snackbar.make(findViewById(android.R.id.content), "Usuario o contraseña incorrecto", Snackbar.LENGTH_LONG).show();
                     }
                 }
@@ -167,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RespuestaLogin> call, Throwable t) {
-
+                // Si el servidor está apagado y no lo encuentra, mostrará un mensaje.
                 Snackbar.make(findViewById(android.R.id.content), "No se ha podido conectar con el servidor", Snackbar.LENGTH_LONG).show();
             }
         });
