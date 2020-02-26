@@ -53,6 +53,10 @@ Aquí podremos **desmarcar la opción de recordar el usuario y la contraseña** 
 
 Si queremos **cerrar la sesión**, solo tendremos que pulsar sobre cerrar sesión.
 
+***NEW***
+
+Para cambiar la inteligencia del bot tenemos que pulsar sobre **dificultad del bot** y seleccionar la que nos interese.
+
 
 # Pantalla selección de carta
 
