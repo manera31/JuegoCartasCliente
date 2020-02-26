@@ -4,6 +4,12 @@
     <string name="preferencais_cerrar_sesion">Sing off</string>
     <string name="preferencais_cerrar_sesion_submensaje">Press me!</string>
     <string name="preferencias">Preferences</string>
+    <string name="preferencias_dificultad">Game Difficulty</string>
+    <string-array name="preferencias_niveles_dificultad">
+        <item>Off</item>
+        <item>Random</item>
+        <item>Supreme Intelligence</item>
+    </string-array>
     <string name="login_recordar">Remember user and pass?</string>
     <string name="login_entrar">Enter</string>
     <string name="login_usuario">User</string>

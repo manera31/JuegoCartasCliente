@@ -2,12 +2,15 @@ package com.joanmanera.juegocartascliente.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.joanmanera.juegocartascliente.R;
 import com.joanmanera.juegocartascliente.fragments.FragmentJuego;
@@ -50,6 +53,7 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
     private IRespuestas listener;
     private Enums.Turno turno;
     private RespuestaResultadoMano respuestaResultadoManoAux;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,10 +61,21 @@ public class JuegoActivity extends AppCompatActivity implements IRespuestas, Vie
         setContentView(R.layout.activity_juego);
 
         idSesion = getIntent().getExtras().getString("idSesion");
-        modoBot = Enums.Bot.INTELOGENCIA_SUPREMA;
 
         partida = APIUtils.getPartida();
         listener = this;
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String[] dificultades = getResources().getStringArray(R.array.preferencias_niveles_dificultad);
+        String valorDificultad = sharedPreferences.getString("lista", "");
+
+        if (dificultades[1].equals(valorDificultad)){
+            modoBot = Enums.Bot.ALEATORIO;
+        } else if(dificultades[2].equals(valorDificultad)){
+            modoBot = Enums.Bot.INTELOGENCIA_SUPREMA;
+        } else {
+            modoBot = Enums.Bot.DESACTIVADO;
+        }
 
         crearJuego(idSesion);
 

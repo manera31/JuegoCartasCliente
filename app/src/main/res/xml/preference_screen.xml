@@ -11,4 +11,12 @@
             android:summary="@string/preferencais_cerrar_sesion_submensaje"
             android:title="@string/preferencais_cerrar_sesion" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferencias_dificultad">
+
+        <ListPreference
+            android:entries="@array/preferencias_niveles_dificultad"
+            android:entryValues="@array/preferencias_niveles_dificultad"
+            android:key="lista"
+            android:title="@string/preferencias_dificultad" />
+    </PreferenceCategory>
 </PreferenceScreen>
