@@ -168,6 +168,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<RespuestaLogin> call, Throwable t) {
 
+                Snackbar.make(findViewById(android.R.id.content), "No se ha podido conectar con el servidor", Snackbar.LENGTH_LONG).show();
             }
         });
     }
