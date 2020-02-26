@@ -53,6 +53,9 @@ Aquí podremos **desmarcar la opción de recordar el usuario y la contraseña** 
 
 Si queremos **cerrar la sesión**, solo tendremos que pulsar sobre cerrar sesión.
 
+***NEW***
+Para poder cambiar el modo de juego entre **desactivado**, **modo aleatorio** y **modo inteligencia suprema**, tendremos que pinchar sobre **dificultad del bot** y seleccionar la deseada.
+
 
 # Pantalla selección de carta
 
